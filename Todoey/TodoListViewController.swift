@@ -11,8 +11,14 @@ class TodoListViewController: UITableViewController {
 
     var itemArray = ["Berries", "Avocado", "Eggs"]
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items
+        }
         
     }
  
@@ -65,6 +71,8 @@ class TodoListViewController: UITableViewController {
             
         // can force unwrap becuase the text property of a text field is never nil
             self.itemArray.append(textField.text!)
+            
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
             
             self.tableView.reloadData()
         }
